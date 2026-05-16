@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NourishBox — Catering Sehat & Organik</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep: #2d5a27;
+      --green-mid:  #4a8c3f;
+      --green-light:#7bbe6e;
+      --cream:      #faf6ef;
+      --peach:      #f4a35a;
+      --yellow:     #f5d76e;
+      --white:      #ffffff;
+      --text-dark:  #1e2e1a;
+      --text-mid:   #4a5e45;
+      --radius:     18px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 6vw;
+      background: rgba(250,246,239,.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(74,140,63,.15);
+      animation: fadeDown .6s ease both;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem; font-weight: 700;
+      color: var(--green-deep);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo span { color: var(--peach); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: .92rem; font-weight: 500;
+      color: var(--text-mid); transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--green-deep); }
+    .nav-cta {
+      background: var(--green-deep); color: #fff;
+      border: none; border-radius: 100px;
+      padding: 10px 26px; font-size: .9rem; font-weight: 500;
+      cursor: pointer; transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--green-mid); transform: scale(1.04); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 40px;
+      padding: 120px 6vw 80px;
+      background:
+        radial-gradient(ellipse 60% 70% at 90% 40%, rgba(122,190,110,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(245,215,110,.22) 0%, transparent 60%),
+        var(--cream);
+    }
+    .hero-text { animation: fadeUp .8s .1s ease both; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(122,190,110,.2); border: 1px solid rgba(74,140,63,.3);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: .8rem; font-weight: 500; color: var(--green-deep);
+      margin-bottom: 20px;
+    }
+    .hero-badge::before { content:'🌿'; }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 5vw, 4.4rem);
+      line-height: 1.12; color: var(--text-dark);
+      margin-bottom: 22px;
+    }
+    h1 em { color: var(--green-mid); font-style: italic; }
+    .hero-sub {
+      font-size: 1.08rem; color: var(--text-mid);
+      line-height: 1.7; max-width: 440px; margin-bottom: 36px;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--green-deep); color: #fff;
+      border: none; border-radius: 100px;
+      padding: 14px 36px; font-size: 1rem; font-weight: 500;
+      cursor: pointer; transition: background .2s, transform .15s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--green-deep);
+      border: 2px solid var(--green-deep); border-radius: 100px;
+      padding: 13px 34px; font-size: 1rem; font-weight: 500;
+      cursor: pointer; transition: all .2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-outline:hover { background: var(--green-deep); color: #fff; transform: translateY(-2px); }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative; animation: fadeUp .8s .25s ease both;
+    }
+    .hero-plate {
+      width: 100%; max-width: 500px; aspect-ratio: 1;
+      border-radius: 50%; overflow: hidden;
+      background: linear-gradient(135deg, #d4eac8 0%, #a8d99c 40%, #7bbe6e 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12rem; box-shadow: 0 30px 80px rgba(45,90,39,.18);
+      margin-left: auto;
+    }
+    .float-tag {
+      position: absolute; background: white;
+      border-radius: 14px; padding: 10px 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.1);
+      font-size: .82rem; font-weight: 500;
+      animation: float 3s ease-in-out infinite;
+    }
+    .float-tag.t1 { top: 12%; left: -5%; animation-delay: 0s; }
+    .float-tag.t2 { bottom: 20%; right: -8%; animation-delay: 1s; }
+    .float-tag.t3 { top: 45%; left: -12%; animation-delay: .5s; }
+    .float-tag span { color: var(--green-mid); font-weight: 700; }
+
+    /* ─── ABOUT ─── */
+    #about {
+      padding: 100px 6vw;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .about-img {
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, #c5e8b7, #8fd17f);
+      aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8rem;
+      box-shadow: 0 20px 60px rgba(45,90,39,.12);
+      position: relative; overflow: hidden;
+    }
+    .about-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 30% 70%, rgba(245,215,110,.4), transparent 60%);
+    }
+    .section-label {
+      font-size: .8rem; font-weight: 500; letter-spacing: .12em;
+      color: var(--peach); text-transform: uppercase; margin-bottom: 12px;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      line-height: 1.2; margin-bottom: 18px;
+    }
+    .about-body {
+      color: var(--text-mid); line-height: 1.75; margin-bottom: 28px;
+    }
+    .pillars { display: flex; flex-direction: column; gap: 14px; }
+    .pillar {
+      display: flex; align-items: flex-start; gap: 14px;
+      background: white; border-radius: 12px; padding: 14px 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .pillar-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .pillar-title { font-weight: 600; font-size: .95rem; margin-bottom: 2px; }
+    .pillar-desc { font-size: .85rem; color: var(--text-mid); }
+
+    /* ─── PRODUCTS ─── */
+    #products {
+      padding: 100px 6vw;
+      background: linear-gradient(180deg, var(--cream) 0%, #eef7e8 100%);
+    }
+    .section-head { text-align: center; margin-bottom: 56px; }
+    .grid-products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+    }
+    .card {
+      background: white; border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(45,90,39,.14); }
+    .card-img {
+      height: 180px; display: flex; align-items: center; justify-content: center;
+      font-size: 6rem;
+    }
+    .card-img.c1 { background: linear-gradient(135deg, #d4f5cc, #a3dba3); }
+    .card-img.c2 { background: linear-gradient(135deg, #fde9c4, #f4c87a); }
+    .card-img.c3 { background: linear-gradient(135deg, #ffe0e0, #f4a46e); }
+    .card-img.c4 { background: linear-gradient(135deg, #d0eeff, #7db9e8); }
+    .card-body { padding: 20px 22px 24px; }
+    .card-body h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; }
+    .card-desc { font-size: .85rem; color: var(--text-mid); line-height: 1.55; margin-bottom: 14px; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .price { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--green-deep); font-weight: 700; }
+    .order-btn {
+      background: var(--green-light); color: var(--green-deep);
+      border: none; border-radius: 100px; padding: 7px 18px;
+      font-size: .82rem; font-weight: 600; cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .order-btn:hover { background: var(--green-mid); color: white; transform: scale(1.05); }
+
+    /* ─── TESTIMONIALS ─── */
+    #testimonials { padding: 100px 6vw; }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .testi-card {
+      background: white; border-radius: var(--radius);
+      padding: 28px 28px 24px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.07);
+      position: relative;
+    }
+    .testi-card::before {
+      content: '"'; font-family: 'Playfair Display', serif;
+      font-size: 6rem; line-height: 1;
+      color: var(--green-light); opacity: .5;
+      position: absolute; top: 10px; right: 20px;
+    }
+    .stars { color: var(--peach); font-size: 1.1rem; margin-bottom: 14px; }
+    .testi-text { font-size: .92rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 20px; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 700; color: white;
+    }
+    .av1 { background: linear-gradient(135deg, var(--green-mid), var(--green-deep)); }
+    .av2 { background: linear-gradient(135deg, var(--peach), #e07a30); }
+    .av3 { background: linear-gradient(135deg, var(--yellow), var(--peach)); }
+    .author-name { font-weight: 600; font-size: .9rem; }
+    .author-role { font-size: .78rem; color: var(--text-mid); }
+
+    /* ─── CTA BANNER ─── */
+    .cta-banner {
+      margin: 60px 6vw;
+      background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 100%);
+      border-radius: 24px; padding: 60px 8vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 30px;
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '🥗'; font-size: 14rem; opacity: .1;
+      position: absolute; right: -20px; bottom: -30px;
+      pointer-events: none;
+    }
+    .cta-banner h2 { color: white; max-width: 500px; }
+    .cta-banner p { color: rgba(255,255,255,.75); margin-top: 10px; font-size: .95rem; }
+    .btn-white {
+      background: white; color: var(--green-deep);
+      border: none; border-radius: 100px;
+      padding: 14px 36px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: transform .15s, box-shadow .2s;
+      white-space: nowrap;
+    }
+    .btn-white:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(0,0,0,.15); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--text-dark); color: rgba(255,255,255,.8);
+      padding: 60px 6vw 36px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    .footer-brand .logo { color: white; margin-bottom: 14px; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; color: rgba(255,255,255,.6); max-width: 280px; }
+    .footer-col h4 { color: white; font-weight: 600; margin-bottom: 16px; font-size: .95rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .88rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--green-light); }
+    .socials { display: flex; gap: 12px; margin-top: 18px; }
+    .social-btn {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .social-btn:hover { background: var(--green-mid); transform: scale(1.1); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .82rem; color: rgba(255,255,255,.45);
+      flex-wrap: wrap; gap: 8px;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      #hero, #about { grid-template-columns: 1fr; }
+      .hero-visual { order: -1; }
+      .hero-plate { max-width: 280px; margin: 0 auto; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .cta-banner { text-align: center; justify-content: center; }
+      .nav-links { display: none; }
+      .float-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Nourish<span>Box</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">Tentang Kami</a></li>
+    <li><a href="#products">Menu</a></li>
+    <li><a href="#testimonials">Testimoni</a></li>
+    <li><a href="#footer">Kontak</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Pesan Sekarang</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="hero-badge">Catering Sehat Terpercaya</div>
+    <h1>Makan <em>Sehat</em>,<br/>Hidup Lebih <em>Bahagia</em></h1>
+    <p class="hero-sub">
+      NourishBox hadir dengan menu catering organik segar setiap hari — 
+      bebas pengawet, kaya nutrisi, dan diantar langsung ke pintumu.
+    </p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">🛒 Cek Koleksi Menu</a>
+      <a href="#about" class="btn-outline">Kenali Kami</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-plate">
+      <img src="https://www.makanponyo.com/wp-content/uploads/2019/07/Catering-pernikahan-di-Bandung-e1571094439700.jpg"
+      style="width: 500px;
+      height: 400px">
+    </div>
+    <div class="float-tag t1"><span>100%</span> Organik</div>
+    <div class="float-tag t2">⚡ergizi Tinggi</div>
+    <div class="float-tag t3">Antar ke Rumah</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img">
+    <img src="https://www.shutterstock.com/image-photo/green-field-potato-crops-row-260nw-636416696.jpg"
+    style="width: 400px;
+    height: 400px;">
+  </div>
+  <div class="about-content">
+    <p class="section-label">Tentang NourishBox</p>
+    <h2>Dari Ladang Organik<br/>Langsung ke Mejamu</h2>
+    <p class="about-body">
+      NourishBox berdiri sejak 2019 dengan misi sederhana: menyajikan makanan bergizi
+      yang enak, terjangkau, dan ramah lingkungan. Kami bekerja sama langsung dengan
+      petani lokal untuk memastikan setiap bahan baku segar dan bebas pestisida kimia.
+    </p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW8kMx4wwq-rbHL91PzbAapVmhg4iSRmnImC0JCKx8rcyW1tEFvOzX74M&s=10"
+          style="width: 50px;
+          height: 50px;
+          border-radius: 20%">
+        </div>
+        <div>
+          <div class="pillar-title">Bahan Segar Setiap Hari</div>
+          <div class="pillar-desc">Dipanen pagi, dimasak siang, diantar sore — kesegaran terjamin.</div>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIVWW3ONQSzgFejauKSTKDsNBHo8g5bu7D_Pgx8MJ2sg&s=10"
+          style="width: 50px;
+          height: 50px;
+          border-radius: 20%">
+        </div>
+        <div>
+          <div class="pillar-title">Chef Bersertifikasi Gizi</div>
+          <div class="pillar-desc">Tim chef kami tersertifikasi ahli gizi untuk menu yang seimbang.</div>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZDU9yImlABuAEUFyp7ThnlxASriw8z3pPbXEYvYcltSP5Oz1wlKTj_NHb&s=10"
+          style="width: 50px;
+          height: 50px;
+          border-radius: 20%">
+        </div>
+        <div>
+          <div class="pillar-title">Kemasan Ramah Lingkungan</div>
+          <div class="pillar-desc">Packaging biodegradable, nol plastik sekali pakai.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-head">
+    <p class="section-label">Menu Unggulan</p>
+    <h2>Pilihan Sehat untuk Setiap Momen</h2>
+  </div>
+  <div class="grid-products">
+    <div class="card">
+      <div class="card-img c1">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpdHCkF_6EpEIdosfjIzUTVsxblhkL5eygopqodXH4cmnlyKCbLJn-PV1s&s=10"
+        style="width: 100px;
+        height: 110px;
+        border-radius: 20%">
+      </div>
+      <div class="card-body">
+        <h3>Green Bowl Premium</h3>
+        <p class="card-desc">Salad quinoa, kale organik, alpukat, biji chia, dengan dressing lemon madu.</p>
+        <div class="card-footer">
+          <span class="price">Rp 45.000</span>
+          <button class="order-btn">Pesan</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img c2">
+        <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//catalog-image/102/MTA-119915408/brd-44261_nasi-box-plant-based-vegan-beef-smoothiemama-vegan-rice-box-premium-sehat-enak-berkualitas-diet-box-catering-porsi-banyak-best-seller-makanan-sehat_full01-0b671679.jpg"
+        style="width: 100px;
+        height: 110px;
+        border-radius: 20%">
+      </div>
+      <div class="card-body">
+        <h3>Nasi Box Sehat</h3>
+        <p class="card-desc">Nasi merah organik, ayam bakar rempah rendah garam, sayur kukus, dan tempe.</p>
+        <div class="card-footer">
+          <span class="price">Rp 55.000</span>
+          <button class="order-btn">Pesan</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img c3">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYgtB1y-1z4WgkG7M4johGaJ98hGRUQPq09t7paOylvxL3pJA6g3FqHgC7&s=10"
+        style="width: 100px;
+        height: 110px;
+        border-radius: 20%">
+      </div>
+      <div class="card-body">
+        <h3>Sup Krim Labu</h3>
+        <p class="card-desc">Sup labu kuning segar, krim kelapa, biji rami, dan roti gandum panggang.</p>
+        <div class="card-footer">
+          <span class="price">Rp 40.000</span>
+          <button class="order-btn">Pesan</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img c4">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwpk-2EvUK7_ywQQfMj2qONUfOztDJys8RFWjiAGM3Y6sovSmIiqhhvPJf&s=10"
+        style="width: 100px;
+        height: 110px;
+        border-radius: 20%">
+      </div>
+      <div class="card-body">
+        <h3>Detox Juice Pack</h3>
+        <p class="card-desc">Paket 3 jus sayur-buah segar: hijau, merah bit, dan kunyit jahe. Tanpa gula tambahan.</p>
+        <div class="card-footer">
+          <span class="price">Rp 65.000</span>
+          <button class="order-btn">Pesan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-head">
+    <p class="section-label">Testimoni</p>
+    <h2>Kata Pelanggan Kami</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">
+        "NourishBox benar-benar mengubah pola makanku. Nasi box sehat-nya lezat banget,
+        porsinya pas, dan nutrisinya seimbang. Sudah langganan 3 bulan!"
+      </p>
+      <div class="testi-author">
+        <div class="avatar av1">R</div>
+        <div>
+          <div class="author-name">Rina Kusumawati</div>
+          <div class="author-role">Pelanggan Tetap – Jakarta Selatan</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">
+        "Saya pesan untuk catering kantor 30 orang setiap hari. Pengiriman selalu tepat waktu,
+        bahan-bahannya segar, dan timnya sangat responsif. Recommended banget!"
+      </p>
+      <div class="testi-author">
+        <div class="avatar av2">B</div>
+        <div>
+          <div class="author-name">Bagas Pratama</div>
+          <div class="author-role">HR Manager – Startup Teknologi</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★☆</div>
+      <p class="testi-text">
+        "Green Bowl Premium-nya juara! Rasanya tidak membosankan meski dimakan setiap hari.
+        Kemasannya juga ramah lingkungan, jadi makin happy."
+      </p>
+      <div class="testi-author">
+        <div class="avatar av3">S</div>
+        <div>
+          <div class="author-name">Sari Dewi</div>
+          <div class="author-role">Yoga Instructor – Bandung</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <div>
+    <h2>Mulai Hidup Sehat Hari Ini!</h2>
+    <p>Pesan sekarang dan dapatkan gratis ongkir untuk order pertamamu.</p>
+  </div>
+  <button class="btn-white" onclick="alert('Terima kasih! Tim kami akan segera menghubungi Anda.')">
+    🛒 Beli Sekarang
+  </button>
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Nourish<span>Box</span></div>
+      <p>Catering sehat berbasis bahan organik lokal. Segar, bergizi, dan ramah lingkungan untuk gaya hidup aktifmu.</p>
+      <div class="socials">
+        <a href="#" class="social-btn">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfTyAt5lzAgytaBHIFWu0__f0gFU65nFhgRkvKdIa37g&s"
+          style="width: 40px;
+          height: 40px;
+          border-radius: 20%">
+        </a>
+        <a href="#" class="social-btn">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiSKbXZ6K-SkSYGxg45kBQSmKNH9IdCxi-kUDIMYGnNw&s=10"
+          style="width: 40px;
+          height: 40px;
+          border-radius: 20%">
+        </a>
+        <a href="#" class="social-btn">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrjYh_uC4YXeuboOy7379cYhBe7mnC3eJTe1APHAA0Ng&s=10"
+          style="width: 40px;
+          height: 40px;
+          border-radius: 20%">
+        </a>
+        <a href="#" class="social-btn">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_B7tgTnKn2YSNwPP93c1R0bBk-ZJncVMh9-eEAM2zBA&s"
+          style="width: 40px;
+          height: 40px;
+          border-radius: 20%">
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#">Green Bowl</a></li>
+        <li><a href="#">Nasi Box Sehat</a></li>
+        <li><a href="#">Sup & Krim</a></li>
+        <li><a href="#">Juice Pack</a></li>
+        <li><a href="#">Paket Mingguan</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontak Kami</h4>
+      <ul>
+        <li><a href="#">📍 Jl. Organik Raya No. 27, Jakarta Selatan</a></li>
+        <li><a href="#">📞 +62 812-3456-7890</a></li>
+        <li><a href="#">✉️ hello@nourishbox.id</a></li>
+        <li><a href="#">🕐 Senin–Sabtu, 07.00–20.00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 NourishBox. Hak cipta dilindungi.</span>
+    <span>Dibuat dengan 💚 untuk hidup yang lebih sehat</span>
+  </div>
+</footer>
+
+</body>
+</html>
